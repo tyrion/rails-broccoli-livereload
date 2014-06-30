@@ -7,8 +7,15 @@ var ncp = require('ncp')
 var path = require('path')
 
 var port = process.env.LR_PORT || process.env.PORT || 35729
-var appRoot = process.env.APP_ROOT || '.'
+var appRoot = process.env.APP_ROOT || process.cwd()
 var brocfile = process.env.BROCFILE || path.join(__dirname, 'Brocfile.js')
+
+console.log('     SRC', __filename)
+console.log('    PORT', port)
+console.log('APP_ROOT', appRoot)
+console.log('BROCFILE', require.resolve(brocfile), '\n')
+
+process.chdir(appRoot)
 
 var railsWatcher = sane(appRoot, [
     'app/views/**/*.+(erb|haml|slim)',
@@ -24,16 +31,19 @@ railsWatcher.on('change', function(path) {
   server.changed({body: {files: files}})
 })
 
-process.chdir(appRoot)
 var tree = require(brocfile)
 var builder = new broccoli.Builder(tree)
 
-var broccoliWatcher = new Watcher(builder, {verbose: false})
+var broccoliWatcher = new Watcher(builder, {verbose: true})
 broccoliWatcher.on('change', function(hash) {
   console.log('Build finished in ' + Math.round(hash.totalTime / 1e6) + ' ms')
 
   ncp(hash.directory, path.join(appRoot, 'public'))
   return hash
+})
+
+broccoliWatcher.on('error', function(error) {
+  console.log('ERROR', error.message)
 })
 
 var server = new tinylr.Server

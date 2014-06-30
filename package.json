@@ -1,0 +1,24 @@
+{
+  "name": "rails-broccoli-livereload",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Germano Gabbianelli",
+  "license": "MIT",
+  "bin": {
+    "rails-blr": "bin/rails-blr"
+  },
+  "dependencies": {
+    "ncp": "~0.5.1",
+    "broccoli-sane-watcher": "0.0.5",
+    "tiny-lr": "0.0.7",
+    "sane": "~0.5.2",
+    "broccoli": "~0.12.3",
+    "broccoli-sass-helpers": "git://github.com/tyrion/broccoli-sass-helpers.git",
+    "resolve": "~0.7.1",
+    "broccoli-sass": "~0.2.1"
+  }
+}

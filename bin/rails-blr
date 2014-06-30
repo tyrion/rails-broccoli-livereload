@@ -1,0 +1,14 @@
+#!/usr/bin/env node
+
+var resolve = require('resolve')
+
+process.title = 'rails-blr'
+
+try {
+  var path = resolve.sync('rails-broccoli-livereload', {
+    basedir: process.cwd()
+  })
+  require(path);
+} catch (e) {
+  require('rails-broccoli-livereload');
+}
